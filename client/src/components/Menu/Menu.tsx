@@ -13,7 +13,7 @@ const Menu = (props: Props) => {
     <div>
       <ul style={{ display: "flex" }}>
         <li style={{ listStyle: "none", margin: "0px 5px " }}>
-          <NavLink to="/home" style={navLinkStyle}>
+          <NavLink to="/" style={navLinkStyle}>
             Home
           </NavLink>
         </li>
@@ -23,8 +23,8 @@ const Menu = (props: Props) => {
           </NavLink>
         </li>
         <li style={{ listStyle: "none", margin: "0px 5px " }}>
-          <NavLink to="/chat" style={navLinkStyle}>
-            Chat
+          <NavLink to="/posts" style={navLinkStyle}>
+            Post
           </NavLink>
         </li>
       </ul>
