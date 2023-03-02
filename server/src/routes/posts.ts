@@ -1,7 +1,7 @@
 import express from "express";
 
 import { validateToken } from "../middlewares/auth";
-import { createPost, getPostById, getPosts, updatePost } from "../controllers/post";
+import { createPost, deletePost, getPostById, getPosts, updatePost } from "../controllers/post";
 
 const router = express.Router();
 
@@ -16,5 +16,8 @@ router.post("/create", validateToken, createPost);
 
 //update post
 router.post("/update/:id", validateToken, updatePost);
+
+//delete post
+router.delete("/delete/:id", validateToken, deletePost);
 
 export default router;

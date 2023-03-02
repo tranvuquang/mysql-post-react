@@ -152,7 +152,7 @@ export const deleteAxiosData = async (
       },
       data: payload,
     })) as AxiosResponse<any, any>;
-    if (resData) {
+    if (resData && reFetchUrl) {
       let reFetchData = (await getAxiosData(
         reFetchUrl,
         accessToken,
