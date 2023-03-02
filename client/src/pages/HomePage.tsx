@@ -1,16 +1,11 @@
-import React from "react";
-import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
-import { Button } from "@mui/material";
+import React from 'react'
 
-type Props = {};
+type Props = {}
 
 const HomePage = (props: Props) => {
   return (
-    <div>
-      <Button>button</Button>
-      <ThumbUpAltIcon />
-    </div>
-  );
-};
+    <div>HomePage</div>
+  )
+}
 
-export default HomePage;
+export default HomePage

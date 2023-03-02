@@ -24,8 +24,8 @@ const Layout = (props: Props) => {
             </>
           ) : (
             <>
-              <Link to="/"> Home Page</Link>
-              <Link to="/createpost"> Create A Post</Link>
+              <Link to="/posts"> Home Page</Link>
+              <Link to="/posts/create"> Create A Post</Link>
             </>
           )}
         </div>
