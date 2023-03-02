@@ -26,12 +26,31 @@ export const getCommentByPostId = async (
 ) => {
   try {
     const id = Number(req.params.id);
-    console.log(id);
     const comments = await Comments.findAll({ where: { PostId: id } });
     return res.status(200).json({
       message: "success",
       status: 200,
       comments,
+    });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+export const deleteComment = async (
+  req: RequestExtended,
+  res: ResponseExtended
+) => {
+  try {
+    const id = Number(req.body.id);
+    await Comments.destroy({
+      where: {
+        id,
+      },
+    });
+    return res.status(200).json({
+      message: "success",
+      status: 200,
     });
   } catch (err) {
     return res.status(500).json({ error: err.message });
