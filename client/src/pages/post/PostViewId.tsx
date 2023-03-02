@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { getAxiosData } from "../../axios/axiosConfig";
+import { deleteAxiosData, getAxiosData } from "../../axios/axiosConfig";
 import { selectAuth } from "../../features/auth/authSlice";
 
 type Props = {};
@@ -28,14 +28,15 @@ const PostViewId = (props: Props) => {
     }
   }, [accessToken, dispatch, id]);
 
-  const addComment = () => {
-    console.log(newComment)
+  const addComment = async() => {
+    console.log(newComment);
   };
 
   // const deleteComment = (id: number) => {};
 
-  const deletePost = (id: number) => {
-    console.log(id);
+  const deletePost = async (id: number) => {
+    await deleteAxiosData(`/api/posts/delete/${id}`, accessToken, {}, dispatch);
+    navigate("/posts");
   };
   const updatePost = (id: number) => {
     navigate(`/posts/update/${id}`);

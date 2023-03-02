@@ -77,3 +77,23 @@ export const updatePost = async (
     return res.status(500).json({ error: err.message });
   }
 };
+
+export const deletePost = async (
+  req: RequestExtended,
+  res: ResponseExtended
+) => {
+  try {
+    const { id } = req.params;
+    await Posts.destroy({
+      where: {
+        id,
+      },
+    });
+    return res.status(200).json({
+      message: "success",
+      status: 200,
+    });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
