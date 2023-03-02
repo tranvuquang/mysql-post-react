@@ -8,12 +8,14 @@ export const getPosts = async (req: RequestExtended, res: ResponseExtended) => {
   try {
     const posts = await Posts.findAll();
     const { id } = req.headers.user as any;
-    const likes = await Likes.findAll({ where: { UserId: id } });
+    const likesByUserId = await Likes.findAll({ where: { UserId: id } });
+    const allLikes = await Likes.findAll();
     return res.status(200).json({
       message: "success",
       status: 200,
       posts,
-      likes,
+      likesByUserId,
+      allLikes,
     });
   } catch (err) {
     return res.status(500).json({ error: err.message });
@@ -30,6 +32,23 @@ export const createPost = async (
     return res.status(200).json({
       message: "success",
       data: resData,
+      status: 200,
+    });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+export const getPostById = async (
+  req: RequestExtended,
+  res: ResponseExtended
+) => {
+  try {
+    const { id } = req.params;
+    const post = await Posts.findByPk(id);
+    return res.status(200).json({
+      message: "success",
+      post,
       status: 200,
     });
   } catch (err) {

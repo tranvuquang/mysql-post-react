@@ -7,18 +7,20 @@ import { Link, useNavigate } from "react-router-dom";
 
 type Props = {};
 
-const HomePage = (props: Props) => {
+const PostHomePage = (props: Props) => {
   let navigate = useNavigate();
   const { accessToken } = useAppSelector(selectAuth);
   const dispatch = useAppDispatch();
   const [listOfPosts, setListOfPosts] = useState([]);
-  const [likedPosts, setLikedPosts] = useState([]);
+  const [likedByUserId, setLikedByUserId] = useState([]);
+  const [allLikes, setAllLikes] = useState([]);
   const { data } = useFetch("/api/posts", accessToken, dispatch);
 
   useEffect(() => {
     if (data) {
       setListOfPosts(data.posts);
-      setLikedPosts(data.likes);
+      setLikedByUserId(data.likesByUserId);
+      setAllLikes(data.allLikes);
     }
   }, [data]);
 
@@ -31,7 +33,8 @@ const HomePage = (props: Props) => {
       "/api/posts"
     )) as any;
     if (resData && reFetchData) {
-      setLikedPosts(reFetchData.data.likes);
+      setLikedByUserId(reFetchData.data.likesByUserId);
+      setAllLikes(reFetchData.data.allLikes);
     }
   };
   return (
@@ -39,10 +42,10 @@ const HomePage = (props: Props) => {
       {listOfPosts &&
         listOfPosts.length > 0 &&
         listOfPosts.map((value: any, key) => {
-          const liked = likedPosts.find((like: any) => {
+          const liked = likedByUserId.find((like: any) => {
             return like.PostId === value.id;
           });
-          const likeArr = likedPosts.filter((like: any) => {
+          const likeArr = allLikes.filter((like: any) => {
             return like.PostId === value.id;
           });
           return (
@@ -80,4 +83,4 @@ const HomePage = (props: Props) => {
   );
 };
 
-export default HomePage;
+export default PostHomePage;
