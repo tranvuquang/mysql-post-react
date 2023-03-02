@@ -57,11 +57,21 @@ const PostViewId = (props: Props) => {
     )) as any;
     if (resData && reFetchData) {
       setComments(reFetchData.data.comments);
+      setNewComment("");
     }
   };
 
-  const deleteComment = (id: number) => {
-    console.log(id)
+  const deleteComment = async (id: number) => {
+    const { resData, reFetchData } = (await deleteAxiosData(
+      "/api/comments/delete",
+      accessToken,
+      { id },
+      dispatch,
+      `/api/comments/${id}`
+    )) as any;
+    if (resData && reFetchData) {
+      setComments(reFetchData.data.comments);
+    }
   };
 
   const deletePost = async (id: number) => {

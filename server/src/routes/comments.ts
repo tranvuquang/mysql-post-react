@@ -1,7 +1,7 @@
 import express from "express";
 
 import { validateToken } from "../middlewares/auth";
-import { createComment, getCommentByPostId } from "../controllers/comment";
+import { createComment, deleteComment, getCommentByPostId } from "../controllers/comment";
 
 const router = express.Router();
 
@@ -10,5 +10,8 @@ router.post("/create", validateToken, createComment);
 
 //  get comment by post id
 router.get("/:id", validateToken, getCommentByPostId);
+
+//  delete comment 
+router.delete("/delete", validateToken, deleteComment);
 
 export default router;
