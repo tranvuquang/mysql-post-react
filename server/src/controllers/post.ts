@@ -55,3 +55,25 @@ export const getPostById = async (
     return res.status(500).json({ error: err.message });
   }
 };
+
+export const updatePost = async (
+  req: RequestExtended,
+  res: ResponseExtended
+) => {
+  try {
+    const { id } = req.params;
+    const { title, postText } = req.body;
+    await Posts.update({ title, postText }, { where: { id: id } });
+    return res.status(200).json({
+      message: "success",
+      post: {
+        id: Number(id),
+        title,
+        postText,
+      },
+      status: 200,
+    });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
