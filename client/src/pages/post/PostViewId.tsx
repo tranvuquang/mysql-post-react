@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { deleteAxiosData, getAxiosData } from "../../axios/axiosConfig";
+import {
+  deleteAxiosData,
+  getAxiosData,
+  postAxiosData,
+} from "../../axios/axiosConfig";
 import { selectAuth } from "../../features/auth/authSlice";
 
 type Props = {};
@@ -13,6 +17,7 @@ const PostViewId = (props: Props) => {
   const dispatch = useAppDispatch();
   const [postObject, setPostObject] = useState<any>({});
   const [newComment, setNewComment] = useState("");
+  const [comments, setComments] = useState([]);
   useEffect(() => {
     if (id) {
       (async () => {
@@ -21,18 +26,43 @@ const PostViewId = (props: Props) => {
           accessToken,
           dispatch
         );
+        const resCommentsData = await getAxiosData(
+          `/api/comments/${id}`,
+          accessToken,
+          dispatch
+        );
         if (resData) {
           setPostObject(resData.data.post);
+        }
+        if (resCommentsData) {
+          setComments(resCommentsData.data.comments);
         }
       })();
     }
   }, [accessToken, dispatch, id]);
 
-  const addComment = async() => {
-    console.log(newComment);
+  const addComment = async () => {
+    const data = {
+      commentBody: newComment,
+      username: user.username,
+      UserId: user.id,
+      PostId: postObject.id,
+    };
+    const { resData, reFetchData } = (await postAxiosData(
+      "/api/comments/create",
+      accessToken,
+      data,
+      dispatch,
+      `/api/comments/${id}`
+    )) as any;
+    if (resData && reFetchData) {
+      setComments(reFetchData.data.comments);
+    }
   };
 
-  // const deleteComment = (id: number) => {};
+  const deleteComment = (id: number) => {
+    console.log(id)
+  };
 
   const deletePost = async (id: number) => {
     await deleteAxiosData(`/api/posts/delete/${id}`, accessToken, {}, dispatch);
@@ -88,23 +118,24 @@ const PostViewId = (props: Props) => {
             <button onClick={addComment}> Add Comment</button>
           </div>
           <div className="listOfComments">
-            {/* {comments.map((comment, key) => {
-              return (
-                <div key={key} className="comment">
-                  {comment.commentBody}
-                  <label> Username: {comment.username}</label>
-                  {authState.username === comment.username && (
-                    <button
-                      onClick={() => {
-                        deleteComment(comment.id);
-                      }}
-                    >
-                      X
-                    </button>
-                  )}
-                </div>
-              );
-            })} */}
+            {comments.length > 0 &&
+              comments.map((comment: any, key) => {
+                return (
+                  <div key={key} className="comment">
+                    {comment.commentBody}
+                    <label> Username: {comment.username}</label>
+                    {user.username === comment.username && (
+                      <button
+                        onClick={() => {
+                          deleteComment(comment.id);
+                        }}
+                      >
+                        X
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 type Props = {};
 
-const ChatHomePage = (props: Props) => {
+const PostHomePage = (props: Props) => {
   return (
     <div>
       <Outlet />
@@ -11,4 +11,4 @@ const ChatHomePage = (props: Props) => {
   );
 };
 
-export default ChatHomePage;
+export default PostHomePage;
